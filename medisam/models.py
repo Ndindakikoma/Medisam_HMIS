@@ -43,15 +43,35 @@ class Staff(models.Model):
 
 
 class Patient(models.Model):
-    id = models.AutoField(primary_key=True)
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
-    profile_pic= models.ImageField(upload_to='profile_pic/PatientProfilePic/',null=True,blank=True)
-    address = models.CharField(max_length=40)
-    mobile = models.CharField(max_length=20,null=False)
-    symptoms = models.CharField(max_length=100,null=False)
+    GENDER = (
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other'), 
+    )
+    BLOOD_GROUP =(
+        ('A+', 'A+'),
+        ('A-', 'A-'),
+        ('B+', 'B+'),
+        ('B-', 'B-'),
+        ('O+', 'O+'),
+        ('O-', 'O-'),
+        ('AB+', 'AB+'),
+        ('AB-', 'AB-'),
+    )
+    patientId= models.IntegerField(primary_key=True)
+    profilePic= models.ImageField(upload_to='profile_pic/PatientProfilePic/',null=True,blank=True)
+    patientName = models.CharField(max_length=40)
+    patientAge = models.CharField(max_length=3)
+    patientGender = models.CharField(max_length=1, null=True, choices=GENDER)
+    patientBloodGroup = models.CharField(max_length=1, null=True, choices=BLOOD_GROUP)
+    patientPhone = models.CharField(max_length=20)
+    patientEmail = models.CharField(max_length=40)
     assignedDoctorId = models.PositiveIntegerField(null=True)
-    admitDate=models.DateField(auto_now=True)
-    status=models.BooleanField(default=False)
+    patientSymptoms = models.CharField(max_length=100,null=False)
+    note = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+   
 
 class Appointment(models.Model):
     patientId=models.PositiveIntegerField(null=True)
